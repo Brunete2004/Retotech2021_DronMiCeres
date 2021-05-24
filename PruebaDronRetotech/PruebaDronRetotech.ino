@@ -38,5 +38,3 @@ void loop() {
   Motor3.write(valorPot);
   Motor4.write(valorPot);
 }
-
-//esto es una prueba del repositorio
