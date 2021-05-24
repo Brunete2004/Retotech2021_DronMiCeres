@@ -1,34 +1,49 @@
-// Librerias I2C para controlar el mpu6050
-// la libreria MPU6050.h necesita I2Cdev.h, I2Cdev.h necesita Wire.h
-#include <I2Cdev.h>
-#include <MPU6050.h>
-#include <Wire.h>
+#include<Wire.h>
 
-// La dirección del MPU6050 puede ser 0x68 o 0x69, dependiendo 
-// del estado de AD0. Si no se especifica, 0x68 estará implicito
-MPU6050 sensor;
+const int MPU_addr=0x68;
+int16_t axis_X,axis_Y,axis_Z;
 
-// Valores RAW (sin procesar) del acelerometro y giroscopio en los ejes x,y,z
+int minVal=265;
+int maxVal=402;
+
 int gx, gy, gz;
 
-void setup() {
-  Serial.begin(57600);    //Iniciando puerto serial
-  Wire.begin();           //Iniciando I2C  
-  sensor.initialize();    //Iniciando el sensor
-
-  if (sensor.testConnection()) Serial.println("Sensor iniciado correctamente");
-  else Serial.println("Error al iniciar el sensor");
+void setup(){
+  Wire.begin();
+  Wire.beginTransmission(MPU_addr);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+  Serial.begin(57600);
 }
+void loop(){
+  Wire.beginTransmission(MPU_addr);
+  Wire.write(0x3B);
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU_addr,14,true);
+  axis_X=Wire.read()<<8|Wire.read();
+  axis_Y=Wire.read()<<8|Wire.read();
+  axis_Z=Wire.read()<<8|Wire.read();
+    int xAng = map(axis_X,minVal,maxVal,-90,90);
+    int yAng = map(axis_Y,minVal,maxVal,-90,90);
+    int zAng = map(axis_Z,minVal,maxVal,-90,90);
 
-void loop() {
-  // Leer las rotaciones
-  sensor.readRawGyro(&gx, &gy, &gz);
+       gx = RAD_TO_DEG * (atan2(-yAng, -zAng)+PI);
+       gy = RAD_TO_DEG * (atan2(-xAng, -zAng)+PI);
+       gz = 0;
 
-  //Mostrar las lecturas separadas por un [tab]
-  Serial.print("g[x y z]:\t");
-  Serial.print(gx); Serial.print("\t");
-  Serial.print(gy); Serial.print("\t");
-  Serial.println(gz);
+       if (gy > 180) {
+        gy=gy-360;
+       }
 
-  delay(100);
+       if (gx > 180) {
+        gx=gx-360;
+       }
+
+       Serial.print("g[x y z]:\t");
+       Serial.print(gx); Serial.print("\t");
+       Serial.print(gy); Serial.print("\t");
+       Serial.println(gz);
+
+       delay(200);
 }
