@@ -1,5 +1,5 @@
 /*Disposicion de los motores del dron:
-     
+
      1
      ↑
   4--O--2
@@ -25,7 +25,7 @@ void setup() {
   Motor3.attach(10,1000,2000);
   // Ligar ESC4 al pin 11
   Motor4.attach(11,1000,2000);
-  // (pin, valor mínimo del pulso, valor máximo del pulso (todo en microsegundos)) 
+  // (pin, valor mínimo del pulso, valor máximo del pulso (todo en microsegundos))
 }
 
 void loop() {
@@ -38,3 +38,5 @@ void loop() {
   Motor3.write(valorPot);
   Motor4.write(valorPot);
 }
+
+//esto es una prueba del repositorio
