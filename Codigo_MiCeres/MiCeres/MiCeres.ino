@@ -70,26 +70,35 @@ void loop () {
   }
 
   //enviar datos atmosféricos a la APP
-  Serial.write(readAtmSensor());
+  sendAtmSensor();
 
 }
 
-void sendSerialData (int xCoord, int yCoord, int power) {
+void sendSerialData (int xCoordRaw, int yCoordRaw, int powerRaw) {
+
+  char xCoord[15];
+  char yCoord[15];
+  char power[15];
+
+  sprintf(xCoord, "%05d", xCoordRaw);
+  sprintf(yCoord, "%05d", yCoordRaw);
+  sprintf(power, "%05d", powerRaw);
 
   //concatenar variables en un paquete de datos y enviaralas a NAV
-  string send = "*" + xCoord + yCoord + power + "#";
-  NAVSerial.write(send);
+  char send[13] = {'*', xCoord, '|', yCoord, '|', powerRaw, '#'};
+  /*NAV*/Serial.write(send);
   return;
 
 }
 
 
-int readAtmSensor () {
+int sendAtmSensor () {
 
   //leer sensor de calidad atmosférica
-  int airQuality = analogRead(A0);
-  airQuality = map (airQuality, 0, 1023, 0, 100);
-  airQuality = "*" + airQuality + "#"
-  return airQuality;
+  int airQualityRaw = analogRead(A0);
+  airQualityRaw = map (airQuality, 0, 1023, 0, 100);
+  char airQualitySend[] = {'*', airQualityRaw, '#'};
+  //Serial.write(airQualitySend);
+  return;
 
 }
