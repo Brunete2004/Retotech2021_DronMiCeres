@@ -37,6 +37,7 @@ void setup() {
 
 void loop () {
 
+  seed = 0;
   char get_char = ' ';  //variable para leer bluetooth
 
   //esperar a recibir algun comando
@@ -62,7 +63,14 @@ void loop () {
   NAVSerial.write(prepareSerialData (xCoord, yCoord, power));
 
   //dispensar semilla
+  if (seed == 1) {
 
+  seed();
+
+  }
+
+  //enviar datos atmosféricos a la APP
+  Serial.write(readAtmSensor());
 
 }
 
@@ -78,8 +86,9 @@ string prepareSerialData (xCoord, yCoord, power) {
 int readAtmSensor () {
 
   //leer sensor de calidad atmosférica
-  airQuality = analogRead(A0);
+  int airQuality = analogRead(A0);
   airQuality = map (airQuality, 0, 1023, 0, 100);
+  airQuality = "*" + airQuality + "#"
   return airQuality;
 
 }
