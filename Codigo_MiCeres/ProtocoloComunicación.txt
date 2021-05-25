@@ -10,3 +10,5 @@ Y: coordenada X joystick [0-100]
 P: potencia motores [0-100]
 S: activar semillero [0-1]
 A: sensor calidad de aire [0-100]
+
+IMPORTANTE: todas las comunicaciones usarán una frecuencia de 9600 baudios
