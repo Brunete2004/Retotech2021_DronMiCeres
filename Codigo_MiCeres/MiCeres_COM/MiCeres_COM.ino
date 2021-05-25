@@ -65,7 +65,7 @@ void loop () {
   //dispensar semilla
   if (seed == 1) {
 
-  seed();
+  //seed();
 
   }
 
