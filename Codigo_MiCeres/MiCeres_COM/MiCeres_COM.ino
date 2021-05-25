@@ -31,7 +31,7 @@ void setup() {
   Serial.flush(); //limpia la memoria serial
   NAVSerial.begin(9600); //comienza la comunicacióncon NAV (pines serial 2 y 3)
   NAVSerial.flush(); //limpia la memoria serial
-  servoSeed.atatch(11); //enlazar servomotor semillero al pin 11
+  servoSeed.attach(11); //enlazar servomotor semillero al pin 11
 
 }
 
