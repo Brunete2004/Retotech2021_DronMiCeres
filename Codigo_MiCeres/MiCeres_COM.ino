@@ -1,5 +1,14 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
+#include <Servo.h>
+
+//definir comunicación serial secundaria (COM -> NAV)
+
+SoftwareSerial NAVSerial (2, 3); //RX, TX
+
+//definir servomotor semillero
+
+Servo servoSeed;
 
 //definir caractares para comunicaión bluetooth
 
@@ -19,7 +28,10 @@ int seed;
 void setup() {
 
   Serial.begin(9600); //comienza la comunicación por bluetooth (pines serial 0 y 1)
-  Serial.flush(); //limpia la memoria UART
+  Serial.flush(); //limpia la memoria serial
+  NAVSerial.begin(9600); //comienza la comunicacióncon NAV (pines serial 2 y 3)
+  NAVSerial.flush(); //limpia la memoria serial
+  servoSeed.attatch(11); //enlazar servomotor semillero al pin 11
 
 }
 
@@ -46,7 +58,22 @@ void loop () {
   //extraer información de semillero
   seed = Serial.parseInt(); //guardar la información de semillero
 
+  //enviar la información necesria a NAV
+  NAVSerial.write(prepareSerialData (xCoord, yCoord, power));
+
+  //dispensar semilla
+
+
 }
+
+string prepareSerialData (xCoord, yCoord, power) {
+
+  //concatenar variables en un paquete de datos
+  string send = "*" + xCoord + yCoord + power + "#";
+  return send;
+
+}
+
 
 int readAtmSensor () {
 
