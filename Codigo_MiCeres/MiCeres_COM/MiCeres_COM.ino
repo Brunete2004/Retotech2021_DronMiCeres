@@ -74,7 +74,7 @@ void loop () {
 
 }
 
-void sendSerialData (xCoord, yCoord, power) {
+void sendSerialData (int xCoord, int yCoord, int power) {
 
   //concatenar variables en un paquete de datos y enviaralas a NAV
   string send = "*" + xCoord + yCoord + power + "#";
