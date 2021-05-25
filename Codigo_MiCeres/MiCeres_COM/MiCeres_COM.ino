@@ -60,7 +60,7 @@ void loop () {
   seed = Serial.parseInt(); //guardar la información de semillero
 
   //enviar la información necesria a NAV
-  NAVSerial.write(prepareSerialData (xCoord, yCoord, power));
+  sendSerialData(xCoord, yCoord, power);
 
   //dispensar semilla
   if (seed == 1) {
@@ -74,11 +74,12 @@ void loop () {
 
 }
 
-string prepareSerialData (xCoord, yCoord, power) {
+void sendSerialData (xCoord, yCoord, power) {
 
-  //concatenar variables en un paquete de datos
+  //concatenar variables en un paquete de datos y enviaralas a NAV
   string send = "*" + xCoord + yCoord + power + "#";
-  return send;
+  NAVSerial.write(send);
+  return;
 
 }
 
