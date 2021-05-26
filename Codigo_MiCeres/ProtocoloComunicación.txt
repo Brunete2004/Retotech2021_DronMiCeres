@@ -1,8 +1,8 @@
 En este proyecto existen 2 comunicaciones, del APP a MICERES y de MICERS a APP, a continuación se muestra la estructua de pauetes empleada para estas comunicaciones:
 
- __ __    [*X|Y|P|S#]    __ __ __ __
+ __ __    [*X|Y|P|S]    __ __ __ __
 |     |  ------------>  |           |
-| APP |      [*A#]      |  MICERES  |
+| APP |      [#A]      |  MICERES  |
 |__ __|  <------------  |__ __ __ __|
 
 X: coordenada X joystick [0-100]
