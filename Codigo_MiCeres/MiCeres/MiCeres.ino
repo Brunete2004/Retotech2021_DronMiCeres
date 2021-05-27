@@ -7,7 +7,6 @@ Servo servoSeed;
 
 //definir variables
 
-static int airQuality = 0;
 static int xCoord = 0;
 static int yCoord = 0;
 static int power = 0;
@@ -25,14 +24,11 @@ void setup() {
 void loop () {
 
   recieveData();
-
-  //Serial.println(analogRead(A0));
-  sendAtmSensor();
   
   if (success) {
 
     //enviar información sensor calidad del aire de vuelta
-    //sendAtmSensor();
+    sendAtmSensor();
     
     //dispensar semilla
     if (seed == 1) {
@@ -40,12 +36,6 @@ void loop () {
     //seed();
 
     }
-
-     Serial.println(xCoord);
-     Serial.println(yCoord);
-     Serial.println(power);
-     Serial.println(seed);
-    
   }
 
   //PID
@@ -95,8 +85,9 @@ void recieveData () {
 void sendAtmSensor () {
 
   //leer sensor de calidad atmosférica
-  airQuality = map(analogRead(A0), 0, 320, 0, 100);
-  //char airQualitySend[] = {'#', airQuality};
+  int airQualityRaw = analogRead(A0);
+  int airQuality = map(airQualityRaw, 0, 320, 0, 100);
+  Serial.write('#');
   Serial.println(airQuality);
   return;
 
